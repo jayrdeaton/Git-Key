@@ -1,4 +1,4 @@
-# Working-Bar
+# Git-Key
 
 A command line tool to make git ssh configuration easy
 
@@ -44,7 +44,7 @@ Combine options
 git-key add -fn myName -p pass
 ```
 
-Configure username and/or password.  WARNING!!! This is not secured.  Your github credentials will be stored in a configuration file unencrypted currently.
+Configure username and/or password.  WARNING!!! This is not secured.  Your github credentials will be stored in a configuration file.  Unencrypted currently.
 
 ```
 git-key config -u example@example.com // Will still prompt for password
