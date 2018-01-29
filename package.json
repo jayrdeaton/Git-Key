@@ -1,0 +1,31 @@
+{
+  "name": "git-ssh",
+  "version": "1.0.0",
+  "description": "git ssh configuration command line tool",
+  "main": "index.js",
+  "scripts": {
+    "start": "index.js",
+    "test": "test.js"
+  },
+  "keywords": [
+    "terminal",
+    "git",
+    "ssh"
+  ],
+  "author": "Jay Deaton",
+  "license": "ISC",
+  "bin": {
+    "git-ssh": "./index.js"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "chalk": "^2.3.0",
+    "commander": "^2.13.0",
+    "crypto-js": "^3.1.9-1",
+    "github-api": "^3.0.0",
+    "inquirer": "^5.0.1",
+    "node-cmd": "^3.0.0",
+    "randomstring": "^1.1.5",
+    "working-bar": "^1.4.3"
+  }
+}
