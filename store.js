@@ -1,6 +1,6 @@
 let fs = require('fs'),
   homedir = require('os').homedir(),
-  storeDir = `${homedir}/.config/git-ssh`,
+  storeDir = `${homedir}/.config/git-key`,
   Config = require('./models').config;
 
 let open = () => {
