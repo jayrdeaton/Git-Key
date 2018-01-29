@@ -1,8 +1,6 @@
 let axios = require('axios'),
   fs = require('fs'),
   os = require('os'),
-  homedir = os.homedir(),
-  dir = `${homedir}/.ssh`,
   helpers = require('./helpers'),
   runCommand = helpers.runCommand,
   inquirer = require('inquirer'),
@@ -10,11 +8,12 @@ let axios = require('axios'),
 
 let create = (filename, passphrase) => {
   return new Promise((resolve, reject) => {
-    getConfirmation(filename).then(() => {
+    let dir = process.store.keyDirectory;
+    getConfirmation(dir, filename).then(() => {
       basicAuth().then((auth) => {
         getPassphrase(passphrase).then((passphrase) => {
-          generateSSH(filename, auth.username, passphrase).then(() => {
-            addKeyToGithub(filename, auth).then(() => {
+          generateSSH(dir, filename, auth.username, passphrase).then(() => {
+            addKeyToGithub(dir, filename, auth).then(() => {
               resolve();
             }).catch((err) => {
               reject(err);
@@ -33,7 +32,7 @@ let create = (filename, passphrase) => {
     });
   });
 };
-let getConfirmation = (filename) => {
+let getConfirmation = (dir, filename) => {
   return new Promise((resolve, reject) => {
     if (fs.existsSync(`${dir}/${filename}`) && fs.existsSync(`${dir}/${filename}.pub`)) {
       let question = [
@@ -96,7 +95,6 @@ let basicAuth = () => {
           password
         }
       }).then((response) => {
-        console.log(response);
         resolve({ username, password });
       }).catch((err) => {
         reject('Github authorization failed');
@@ -130,10 +128,10 @@ let getPassphrase = (passphrase) => {
     };
   });
 };
-let generateSSH = (filename, username, passphrase) => {
+let generateSSH = (dir, filename, username, passphrase) => {
   return new Promise((resolve, reject) => {
-    runCommand(`ssh-keygen -t rsa -b 4096 -C ${username} -N ${passphrase} -f ~/.ssh/${filename}`).then((data) => {
-      runCommand(`ssh-add -K ~/.ssh/${filename}`).then((data) => {
+    runCommand(`ssh-keygen -t rsa -b 4096 -C ${username} -N ${passphrase} -f ${dir}/${filename}`).then((data) => {
+      runCommand(`ssh-add -K ${dir}/${filename}`).then((data) => {
         resolve();
       }).catch((err) => {
         reject(err);
@@ -143,7 +141,7 @@ let generateSSH = (filename, username, passphrase) => {
     });
   });
 };
-let addKeyToGithub = (filename, auth) => {
+let addKeyToGithub = (dir, filename, auth) => {
   return new Promise((resolve, reject) => {
     let key = fs.readFileSync(`${dir}/${filename}.pub`, 'utf8');
     axios({

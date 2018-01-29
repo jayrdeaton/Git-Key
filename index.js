@@ -3,14 +3,15 @@ let chalk = require('chalk'),
   program = require('commander'),
   inquirer = require('inquirer'),
   fs = require('fs'),
-  homedir = require("os").homedir(),
-  dir = `${homedir}/.ssh`,
   helpers = require('./helpers'),
   runCommand = helpers.runCommand,
   controller = require('./controller'),
   store = require('./store');
 
 store.open();
+
+let dir = process.store.keyDirectory;
+
 
 program
   .version('0.1.0');
@@ -40,11 +41,19 @@ program
 //
 //   });
 
+// program
+//   .command('clean')
+//   .description('Clean ssh keys')
+//   .action(() => {
+//
+//   });
+
 program
   .command('config')
   .description('Configure git credentials')
+  .option('-d, --directory <directory>', 'SSH key directory')
   .option('-u, --username <username>', 'Github username')
-  .option('-p, --password <password>', 'Github password')
+  .option('-p, --password <password>', 'Github password * Not secure! *')
   .action((options) => {
     if (options.username) process.store.gitCredentials.username = options.username;
     if (options.password) process.store.gitCredentials.password = options.password;
