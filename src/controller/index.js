@@ -3,7 +3,7 @@ let axios = require('axios'),
   os = require('os'),
   { runCommand } = require('../helpers'),
   inquirer = require('inquirer'),
-  chalk = require('chalk');
+  cosmetic = require('cosmetic');
 
 let create = async (filename, passphrase) => {
   let dir = process.store.keyDirectory;
@@ -58,7 +58,7 @@ let basicAuth = async () => {
       prefix: 'Password'
     });
   };
-  if (questions.length !== 0) console.log(chalk.cyan('Enter your github credentials'));
+  if (questions.length !== 0) console.log(cosmetic.cyan('Enter your github credentials'));
   let data = inquirer.prompt(questions);
   if (data.username) username = data.username.trim();
   if (data.password) password = data.password.trim();

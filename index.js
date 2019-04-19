@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-let chalk = require('chalk'),
+let cosmetic = require('cosmetic'),
   program = require('commander'),
   inquirer = require('inquirer'),
   fs = require('fs'),
@@ -26,9 +26,9 @@ program
     };
     try {
       await controller.create(filename, options.passphrase);
-      console.log(chalk.green(`Successfully created a new ssh key: ${chalk.cyan(filename)}`));
+      console.log(cosmetic.green(`Successfully created a new ssh key: ${cosmetic.cyan(filename)}`));
     } catch(err) {
-      console.log(chalk.red(`${err.name}:`), err.message);
+      console.log(cosmetic.red(`${err.name}:`), err.message);
     };
   });
 
@@ -68,7 +68,7 @@ program
 program
   .command('*')
   .action(() => {
-    console.log(chalk.red('Unrecognized command'));
+    console.log(cosmetic.red('Unrecognized command'));
   });
 
 program.parse(process.argv);
@@ -76,9 +76,9 @@ program.parse(process.argv);
 let defaultFunction = async () => {
   try {
     await controller.create('id_rsa');
-    console.log(chalk.green(`Successfully created a new ssh key: ${chalk.cyan('id_rsa')}`));
+    console.log(cosmetic.green(`Successfully created a new ssh key: ${cosmetic.cyan('id_rsa')}`));
   } catch(err) {
-    console.log(chalk.red(`${err.name}:`), err.message);
+    console.log(cosmetic.red(`${err.name}:`), err.message);
   };
 };
 
