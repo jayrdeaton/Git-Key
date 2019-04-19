@@ -9,7 +9,7 @@ module.exports = async ({ filename, force, passphrase }) => {
   };
   try {
     await controller.create(filename, passphrase);
-    console.log(`${cosmetic.green('success:')} created a new ssh key ${cosmetic.cyan(filename)}`));
+    console.log(`${cosmetic.green('success:')} created a new ssh key ${cosmetic.cyan(filename)}`);
   } catch(err) {
     console.log(cosmetic.red(`${err.name}:`), err.message);
   };
