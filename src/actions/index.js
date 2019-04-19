@@ -1,5 +1,7 @@
-const add = require('./add');
+const add = require('./add'),
+  config = require('./config');
 
 module.exports = {
-  add
+  add,
+  config
 };
