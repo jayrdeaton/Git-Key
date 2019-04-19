@@ -19,13 +19,8 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
-    "commander": "^2.13.0",
     "cosmetic": "^1.1.1",
-    "crypto-js": "^3.1.9-1",
-    "github-api": "^3.0.0",
     "inquirer": "^5.0.1",
-    "node-cmd": "^3.0.0",
-    "randomstring": "^1.1.5",
     "termkit": "^1.4.5",
     "working-bar": "^1.4.3"
   }
