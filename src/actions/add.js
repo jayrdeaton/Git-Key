@@ -1,6 +1,6 @@
 const { existsSync, unlinkSync } = require('fs'),
   cosmetic = require('cosmetic'),
-  controller = require('../controller');
+  { createKey } = require('../helpers');
 
 module.exports = async ({ filename, force, passphrase }) => {
   if (!filename) filename = 'id_rsa';
@@ -9,7 +9,7 @@ module.exports = async ({ filename, force, passphrase }) => {
     if (existsSync(`${dir}/${filename}.pub`)) unlinkSync(`${dir}/${filename}.pub`);
   };
   try {
-    await controller.create(filename, passphrase);
+    await createKey(filename, passphrase);
     console.log(`${cosmetic.green('success:')} created a new ssh key ${cosmetic.cyan(filename)}`);
   } catch(err) {
     console.log(cosmetic.red(`${err.name}:`), err.message);

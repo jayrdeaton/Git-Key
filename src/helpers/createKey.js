@@ -108,4 +108,4 @@ let addKeyToGithub = (dir, filename, auth) => {
   });
 };
 
-module.exports = { create };
+module.exports = create;

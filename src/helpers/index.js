@@ -1,1 +1,5 @@
-module.exports = {};
+const createKey = require('./createKey');
+
+module.exports = {
+  createKey
+};
