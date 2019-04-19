@@ -1,5 +1,6 @@
 const { existsSync, unlinkSync } = require('fs'),
-  cosmetic = require('cosmetic');
+  cosmetic = require('cosmetic'),
+  controller = require('../controller');
 
 module.exports = async ({ filename, force, passphrase }) => {
   if (!filename) filename = 'id_rsa';

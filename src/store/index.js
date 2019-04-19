@@ -23,4 +23,6 @@ let setup = () => {
   return data;
 };
 
+open();
+
 module.exports = { open, save, setup };

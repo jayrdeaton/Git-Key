@@ -1,6 +1,6 @@
 const { command, option } = require('termkit'),
   cosmetic = require('cosmetic'),
-  { add, config, reset } = require('actions'),
+  { add, config, reset } = require('../actions'),
   { printError } = require('../consoleIO'),
   { version } = require('../../package.json');
 
