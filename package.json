@@ -26,6 +26,7 @@
     "inquirer": "^5.0.1",
     "node-cmd": "^3.0.0",
     "randomstring": "^1.1.5",
+    "termkit": "^1.4.5",
     "working-bar": "^1.4.3"
   }
 }
