@@ -3,15 +3,12 @@ let chalk = require('chalk'),
   program = require('commander'),
   inquirer = require('inquirer'),
   fs = require('fs'),
-  helpers = require('./helpers'),
-  runCommand = helpers.runCommand,
-  controller = require('./controller'),
-  store = require('./store');
+  { controller, helpers, store } = require('./src'),
+  runCommand = helpers.runCommand;
 
 store.open();
 
 let dir = process.store.keyDirectory;
-
 
 program
   .version('0.1.0');

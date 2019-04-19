@@ -1,8 +1,7 @@
 let axios = require('axios'),
   fs = require('fs'),
   os = require('os'),
-  helpers = require('./helpers'),
-  runCommand = helpers.runCommand,
+  { runCommand } = require('../helpers'),
   inquirer = require('inquirer'),
   chalk = require('chalk');
 
