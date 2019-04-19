@@ -1,5 +1,6 @@
 const { command, option } = require('termkit'),
   cosmetic = require('cosmetic'),
+  { add, config } = require('actions'),
   { printError } = require('../consoleIO'),
   { version } = require('../../package.json');
 
@@ -11,17 +12,23 @@ const program = command('git-key')
   ])
   .action(async (options) => await gameroom(options))
   .commands([
-    // batch
-    // command('batch', '<resource> <attributes>')
-    // .description('Update a batch of objects of a supplied resource with given attributes')
-    // .options([
-    //   option('f', 'filter', '<object>', 'Set filter object'),
-    //   option('s', 'sort', '<object>', 'Set sort object'),
-    //   option('l', 'limit', '<number>', 'Set limit for fetch, default 100'),
-    //   option(null, 'skip', '<number>', 'Set skip for fetch'),
-    //   option('o', 'offset', '<number>', 'Set offset for fetch'),
-    // ])
-    // .action(async (options) => await batch(options)),
+    // add
+    command('add')
+    .description('add an ssh key')
+    .options([
+      option('f', 'force', null, 'overwrite existing key'),
+      option('n', 'name', '<name>', 'supply file name, default id_rsa'),
+      option('p', 'passphrase', '<passphrase>', 'protect key with passphrase'),
+    ])
+    .action(async (options) => await add(options)),
+    // config
+    command('config')
+    .description('configure git-key')
+    .options([
+      // option('d', 'directory', '<directory>', 'ssh key directory'),
+      option('u', 'username', '<username>', 'github username')
+    ])
+    .action(async (options) => await config(options)),
   ]);
 
 module.exports = program;
