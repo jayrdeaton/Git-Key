@@ -1,24 +1,24 @@
-let fs = require('fs'),
+const { existsSync, mkdirSync, readFileSync, writeFileSync } = require('fs'),
   homedir = require('os').homedir(),
   storeDir = `${homedir}/.config/git-key`,
   { Config } = require('../models');
 
-let open = () => {
-  if (fs.existsSync(storeDir)) {
-    data = JSON.parse(fs.readFileSync(`${storeDir}/data.json`, 'utf8'));
+const open = () => {
+  if (existsSync(storeDir)) {
+    data = JSON.parse(readFileSync(`${storeDir}/data.json`, 'utf8'));
   } else {
-    fs.mkdirSync(`${storeDir}`);
+    mkdirSync(`${storeDir}`);
     data = setup();
   };
   process.store = data;
 };
 
-let save = (data) => {
-  fs.writeFileSync(`${storeDir}/data.json`, JSON.stringify(data, null, 2));
+const save = (data) => {
+  writeFileSync(`${storeDir}/data.json`, JSON.stringify(data, null, 2));
 };
 
-let setup = () => {
-  let data = new Config();
+const setup = () => {
+  const data = new Config();
   save(data);
   return data;
 };

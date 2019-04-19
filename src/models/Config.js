@@ -1,4 +1,4 @@
-let homedir = require('os').homedir();
+const homedir = require('os').homedir();
 
 module.exports = class Config {
   constructor(data) {
