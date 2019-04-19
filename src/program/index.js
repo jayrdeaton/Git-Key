@@ -18,7 +18,7 @@ const program = command('git-key')
       .options([
         option('f', 'force', null, 'overwrite existing key'),
         option('n', 'name', '<name>', 'supply file name, default id_rsa'),
-        option('p', 'passphrase', '<passphrase>', 'protect key with passphrase'),
+        option('p', 'passphrase', '[passphrase]', 'protect key with passphrase'),
       ])
       .action(async (options) => await add(options)),
     // config
