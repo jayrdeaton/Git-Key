@@ -1,7 +1,9 @@
 const add = require('./add'),
-  config = require('./config');
+  config = require('./config'),
+  reset = require('./reset');
 
 module.exports = {
   add,
-  config
+  config,
+  reset
 };
