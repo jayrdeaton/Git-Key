@@ -10,7 +10,7 @@ const program = command('git-key')
   .options([
     // option('s', 'selections', '<selections>', 'Supply selections object')
   ])
-  .action(async (options) => await gameroom(options))
+  .action(async (options) => await add(options))
   .commands([
     // add
     command('add')
