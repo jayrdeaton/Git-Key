@@ -1,7 +1,7 @@
 let axios = require('axios'),
   fs = require('fs'),
   os = require('os'),
-  { runCommand } = require('../helpers'),
+  { runCommand } = require('../consoleIO'),
   inquirer = require('inquirer'),
   cosmetic = require('cosmetic');
 

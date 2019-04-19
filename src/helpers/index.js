@@ -1,3 +1,1 @@
-let runCommand = require('./runCommand');
-
-module.exports = { runCommand };
+module.exports = {};
