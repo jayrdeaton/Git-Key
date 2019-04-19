@@ -18,17 +18,18 @@ program
   .description('Add an ssh key, default filename id_rsa')
   .option('-f, --force', 'Replace existing key if present')
   .option('-p, --passphrase [passphrase]', 'Passphrase protect ssh key')
-  .action((filename, options) => {
+  .action(async (filename, options) => {
     if (!filename) filename = 'id_rsa';
     if (options.force) {
       if (fs.existsSync(`${dir}/${filename}`)) fs.unlinkSync(`${dir}/${filename}`);
       if (fs.existsSync(`${dir}/${filename}.pub`)) fs.unlinkSync(`${dir}/${filename}.pub`);
     };
-    controller.create(filename, options.passphrase).then(() => {
-      console.log(chalk.green(`Successfully created a new ssh key: ${chalk.cyan(filename)}`))
-    }).catch((err) => {
-      console.log(chalk.red('Error:'), err);
-    });
+    try {
+      await controller.create(filename, options.passphrase);
+      console.log(chalk.green(`Successfully created a new ssh key: ${chalk.cyan(filename)}`));
+    } catch(err) {
+      console.log(chalk.red(`${err.name}:`), err.message);
+    };
   });
 
 // program
@@ -72,12 +73,13 @@ program
 
 program.parse(process.argv);
 
-let defaultFunction = () => {
-  controller.create('id_rsa').then(() => {
-    console.log(chalk.green(`Successfully created a new ssh key: ${chalk.cyan('id_rsa')}`))
-  }).catch((err) => {
-    console.log(chalk.red('Error:'), err);
-  });
+let defaultFunction = async () => {
+  try {
+    await controller.create('id_rsa');
+    console.log(chalk.green(`Successfully created a new ssh key: ${chalk.cyan('id_rsa')}`));
+  } catch(err) {
+    console.log(chalk.red(`${err.name}:`), err.message);
+  };
 };
 
 if (process.argv.length == 2) {
