@@ -1,32 +1,41 @@
-let axios = require('axios'),
-  fs = require('fs'),
-  os = require('os'),
+const axios = require('axios'),
+  { existsSync, readFileSync, unlinkSync } = require('fs'),
+  { userInfo } = require('os'),
   { runCommand } = require('../consoleIO'),
-  inquirer = require('inquirer'),
+  { prompt } = require('inquirer'),
   cosmetic = require('cosmetic');
 
-let create = async (filename, passphrase) => {
-  let dir = process.store.keyDirectory;
+const create = async (filename, passphrase) => {
+  const dir = process.store.keyDirectory;
   await getConfirmation(dir, filename)
-  let auth = await basicAuth();
-  passphrase = await getPassphrase(passphrase)
-  await generateSSH(dir, filename, auth.username, passphrase)
-  await addKeyToGithub(dir, filename, auth);
+  const { username, password } = await getAuth();
+  passphrase = await getPassphrase(passphrase);
+  // Generate Key
+  await runCommand(`ssh-keygen -t rsa -b 4096 -C ${username} -N ${passphrase} -f ${dir}/${filename}`);
+  await runCommand(`ssh-add -K ${dir}/${filename}`);
+  // Add Key To Github
+  const key = readFileSync(`${dir}/${filename}.pub`, 'utf8');
+  return axios({
+    method: 'post',
+    url: `https://api.github.com/user/keys`,
+    auth,
+    data: {
+      title: `${userInfo().username}@${new Date()}`,
+      key
+    }
+  });
 };
-let getConfirmation = async (dir, filename) => {
-  if (fs.existsSync(`${dir}/${filename}`) && fs.existsSync(`${dir}/${filename}.pub`)) {
-    let question = [
-      {
-        type: 'confirm',
-        name: 'confirm',
-        message: ':',
-        prefix: `Replace existing ssh key file ${filename}?`
-      }
-    ];
-    let data = await inquirer.prompt(question)
+const getConfirmation = async (dir, filename) => {
+  if (existsSync(`${dir}/${filename}`) && existsSync(`${dir}/${filename}.pub`)) {
+    const data = await prompt([{
+      type: 'confirm',
+      name: 'confirm',
+      message: ':',
+      prefix: `Replace existing ssh key file ${filename}?`
+    }]);
     if (data.confirm) {
-      if (fs.existsSync(`${dir}/${filename}`)) fs.unlinkSync(`${dir}/${filename}`);
-      if (fs.existsSync(`${dir}/${filename}.pub`)) fs.unlinkSync(`${dir}/${filename}.pub`);
+      if (existsSync(`${dir}/${filename}`)) unlinkSync(`${dir}/${filename}`);
+      if (existsSync(`${dir}/${filename}.pub`)) unlinkSync(`${dir}/${filename}.pub`);
       return;
     } else {
       throw new Error('Aborted');
@@ -35,8 +44,8 @@ let getConfirmation = async (dir, filename) => {
     return;
   };
 };
-let basicAuth = async () => {
-  let questions = [];
+const getAuth = async () => {
+  const questions = [];
   let username, password;
   if (process.store.gitCredentials.username) {
     username = process.store.gitCredentials.username;
@@ -59,10 +68,10 @@ let basicAuth = async () => {
     });
   };
   if (questions.length !== 0) console.log(cosmetic.cyan('Enter your github credentials'));
-  let data = inquirer.prompt(questions);
+  const data = prompt(questions);
   if (data.username) username = data.username.trim();
   if (data.password) password = data.password.trim();
-  let response = await axios({
+  const response = await axios({
     method: 'get',
     url: `https://api.github.com/user/keys`,
     auth: {
@@ -72,40 +81,21 @@ let basicAuth = async () => {
   });
   return { username, password };
 };
-let getPassphrase = async (passphrase) => {
+const getPassphrase = async (passphrase) => {
   if (!passphrase) {
     return '""';
   } else if (passphrase !== true) {
     return passphrase;
   } else {
-    let question = [
-      {
-        type: 'password',
-        name: 'passphrase',
-        message: ':',
-        prefix: 'SSH Passphrase'
-      }
-    ];
-    let data = await inquirer.prompt(question);
+    const data = await prompt([{
+      type: 'password',
+      name: 'passphrase',
+      message: ':',
+      prefix: 'SSH Passphrase'
+    }]);
     passphrase = data.passphrase.trim();
     return`"${passphrase}"`;
   };
-};
-let generateSSH = async (dir, filename, username, passphrase) => {
-  await runCommand(`ssh-keygen -t rsa -b 4096 -C ${username} -N ${passphrase} -f ${dir}/${filename}`);
-  await runCommand(`ssh-add -K ${dir}/${filename}`);
-};
-let addKeyToGithub = (dir, filename, auth) => {
-  let key = fs.readFileSync(`${dir}/${filename}.pub`, 'utf8');
-  return axios({
-    method: 'post',
-    url: `https://api.github.com/user/keys`,
-    auth,
-    data: {
-      title: `${os.userInfo().username}@${new Date()}`,
-      key
-    }
-  });
 };
 
 module.exports = create;
