@@ -1,4 +1,5 @@
-const consoleIO = require('./consoleIO'),
+const actions = require('./actions'),
+  consoleIO = require('./consoleIO'),
   controller = require('./controller'),
   helpers = require('./helpers'),
   models = require('./models'),
@@ -6,6 +7,7 @@ const consoleIO = require('./consoleIO'),
   store = require('./store');
 
 module.exports = {
+  actions,
   consoleIO,
   controller,
   helpers,
