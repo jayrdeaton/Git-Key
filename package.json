@@ -18,10 +18,10 @@
     "git-key": "./bin.js"
   },
   "dependencies": {
-    "axios": "^0.17.1",
-    "cosmetic": "^1.1.1",
-    "inquirer": "^5.0.1",
-    "termkit": "^1.4.5",
-    "working-bar": "^1.4.3"
+    "axios": "^0.19.2",
+    "cosmetic": "^1.2.1",
+    "inquirer": "^5.2.0",
+    "termkit": "^1.4.9",
+    "working-bar": "^1.7.3"
   }
 }
