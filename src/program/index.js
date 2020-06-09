@@ -2,7 +2,7 @@ const { command, option } = require('termkit'),
   cosmetic = require('cosmetic'),
   { add, config, reset } = require('../actions'),
   { printError } = require('../consoleIO'),
-  { version } = require('../../package.json');
+  { version } = require('../../package.json')
 
 const program = command('git-key')
   .version(version)
@@ -10,7 +10,7 @@ const program = command('git-key')
   .options([
     // option('s', 'selections', '<selections>', 'Supply selections object')
   ])
-  .action(async (options) => await add(options))
+  .action(add)
   .commands([
     // add
     command('add')
@@ -20,7 +20,7 @@ const program = command('git-key')
         option('n', 'name', '<name>', 'supply file name, default id_rsa'),
         option('p', 'passphrase', '[passphrase]', 'protect key with passphrase'),
       ])
-      .action(async (options) => await add(options)),
+      .action(add),
     // config
     command('config')
       .description('configure git-key')
@@ -28,10 +28,10 @@ const program = command('git-key')
         // option('d', 'directory', '<directory>', 'ssh key directory'),
         option('u', 'username', '<username>', 'github username')
       ])
-      .action(async (options) => await config(options)),
+      .action(add),
     command('reset')
       .description('reset config file')
-      .action(() => reset())
-  ]);
+      .action(reset)
+  ])
 
-module.exports = program;
+module.exports = program
