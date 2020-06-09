@@ -8,7 +8,8 @@ const axios = require('axios'),
 const create = async (filename, passphrase) => {
   const dir = process.store.keyDirectory
   await getConfirmation(dir, filename)
-  const { username, password } = await getAuth()
+  const auth = await getAuth(),
+    { username, password } = auth
   passphrase = await getPassphrase(passphrase)
   // Generate Key
   await runCommand(`ssh-keygen -t rsa -b 4096 -C ${username} -N ${passphrase} -f ${dir}/${filename}`)
@@ -68,7 +69,7 @@ const getAuth = async () => {
     })
   }
   if (questions.length !== 0) console.log(cosmetic.cyan('Enter your github credentials'))
-  const data = prompt(questions)
+  const data = await prompt(questions)
   if (data.username) username = data.username.trim()
   if (data.password) password = data.password.trim()
   const response = await axios({
