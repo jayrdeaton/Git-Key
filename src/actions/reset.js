@@ -1,5 +1,5 @@
-const store = require('../store');
+const store = require('../store')
 
 module.exports = () => {
-  store.setup();
-};
+  store.setup()
+}

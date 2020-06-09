@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
 const { consoleIO, program } = require('./'),
-  { printError } = consoleIO;
+  { printError } = consoleIO
 
 const run = async(args) => {
   try {
-    await program.parse(args);
+    await program.parse(args)
   } catch(err) {
-    printError(err);
-  };
-};
+    printError(err)
+  }
+}
 
-run(process.argv);
+run(process.argv)

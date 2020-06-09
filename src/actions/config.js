@@ -1,6 +1,6 @@
-const store = require('../store');
+const store = require('../store')
 
 module.exports = ({ username }) => {
-  if (username) process.store.gitCredentials.username = username;
-  if (username) store.save(process.store);
-};
+  if (username) process.store.gitCredentials.username = username
+  if (username) store.save(process.store)
+}

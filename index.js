@@ -1,3 +1,3 @@
-const { consoleIO, program } = require('./src');
+const { consoleIO, program } = require('./src')
 
-module.exports = { consoleIO, program };
+module.exports = { consoleIO, program }

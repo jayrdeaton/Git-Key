@@ -1,3 +1,3 @@
-let Config = require('./config');
+let Config = require('./config')
 
-module.exports = { Config };
+module.exports = { Config }

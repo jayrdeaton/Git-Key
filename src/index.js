@@ -3,7 +3,7 @@ const actions = require('./actions'),
   helpers = require('./helpers'),
   models = require('./models'),
   program = require('./program'),
-  store = require('./store');
+  store = require('./store')
 
 module.exports = {
   actions,
@@ -12,4 +12,4 @@ module.exports = {
   models,
   program,
   store
-};
+}
